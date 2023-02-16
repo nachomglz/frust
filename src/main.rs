@@ -1,4 +1,5 @@
 use clap::Parser;
+use colored::Colorize;
 use std::io;
 
 #[derive(Parser, Debug)]
@@ -24,7 +25,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         };
 
         if li.contains(&value) {
-            println!("{}", li);
+            let (index, _) = li.match_indices(value).collect::<Vec<_>>()[0];
+            let endex = index + &value.len();
+
+            // split line and remove the word
+            let first_half: &str = &li[0..index];
+            let second_half: &str = &li[endex..];
+
+            println!("{first_half}{}{second_half}", value.red());
         }
     }
 
